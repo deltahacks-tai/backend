@@ -1,0 +1,40 @@
+[project]
+name = "deltahacks-project"
+version = "0.0.0"
+description = "Our DeltaHacks X project."
+authors = [{ name = "Vidhan Bhatt", email = "me@vidhan.io" }]
+dependencies = []
+readme = "README.md"
+requires-python = ">= 3.8"
+classifiers = ["Private :: Do Not Upload"]
+
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.rye]
+managed = true
+dev-dependencies = ["pyright>=1.1.344", "ruff>=0.1.11", "pytest>=7.4.4"]
+
+    [tool.rye.scripts]
+    "project" = { call = "deltahacks_project" }
+
+    "test" = { cmd = "pytest" }
+
+    "check" = { chain = ["check:code", "check:types", "check:format"] }
+    "check:code" = { cmd = "ruff check" }
+    "check:types" = { cmd = "pyright" }
+    "check:format" = { cmd = "ruff format --check" }
+
+    "format" = { cmd = "ruff format" }
+
+[tool.pyright]
+typeCheckingMode = "strict"
+
+[tool.hatch]
+    [tool.hatch.metadata]
+    allow-direct-references = true
+
+    [tool.hatch.build.targets.wheel]
+    packages = ["src/deltahacks_project"]

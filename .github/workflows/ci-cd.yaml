@@ -1,0 +1,63 @@
+name: CI/CD
+
+on:
+  - push
+  - pull_request
+
+env:
+  RYE_INSTALL_OPTION: --yes
+
+jobs:
+  test:
+    name: Test
+
+    permissions:
+      contents: read
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Rye
+        run: |
+          curl -sSf https://rye-up.com/get | bash
+          echo "$HOME/.rye/shims" >> $GITHUB_PATH
+
+      - name: Execute tests
+        run: |
+          rye sync
+          rye run test
+
+  check:
+    name: Check
+
+    permissions:
+      contents: read
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Rye
+        run: |
+          curl -sSf https://rye-up.com/get | bash
+          echo "$HOME/.rye/shims" >> $GITHUB_PATH
+
+      - name: Install dependencies
+        run: rye sync
+
+      - name: Check code
+        run: rye run check:code
+        if: always()
+
+      - name: Check types
+        run: rye run check:types
+        if: always()
+
+      - name: Check format
+        run: rye run check:format
+        if: always()

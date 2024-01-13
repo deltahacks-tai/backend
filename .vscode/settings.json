@@ -1,8 +1,16 @@
 {
+    "[jinja-html]": {
+        "editor.defaultFormatter": "vscode.html-language-features"
+    },
     "[python]": {
         "editor.defaultFormatter": "charliermarsh.ruff"
     },
+    "emmet.includeLanguages": {
+        "jinja-html": "html"
+    },
     "python.analysis.importFormat": "relative",
     "python.languageServer": "Pylance",
-    "djlint.enableLinting": false
+    "tailwindCSS.includeLanguages": {
+        "jinja-html": "html"
+    }
 }

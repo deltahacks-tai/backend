@@ -3,5 +3,7 @@
 		"ms-python.vscode-pylance",
 		"ms-python.python",
 		"charliermarsh.ruff",
+		"samuelcolvin.jinjahtml",
+		"otovo-oss.htmx-tags",
 	],
 }

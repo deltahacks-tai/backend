@@ -3,5 +3,6 @@
         "editor.defaultFormatter": "charliermarsh.ruff"
     },
     "python.analysis.importFormat": "relative",
-    "python.languageServer": "Pylance"
+    "python.languageServer": "Pylance",
+    "djlint.enableLinting": false
 }

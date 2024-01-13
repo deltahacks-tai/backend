@@ -3,13 +3,16 @@ name = "deltahacks-backend"
 version = "0.0.0"
 description = "Our DeltaHacks X backend."
 authors = [{ name = "Vidhan Bhatt", email = "me@vidhan.io" }]
-dependencies = [
-    "fastapi>=0.109.0",
-]
 readme = "README.md"
 requires-python = ">= 3.12"
 classifiers = ["Private :: Do Not Upload"]
 
+dependencies = [
+    "jinja2>=3.1.3",
+    "fastapi>=0.109.0",
+    "uvicorn[standard]>=0.25.0",
+    "python-multipart>=0.0.6",
+]
 
 [build-system]
 requires = ["hatchling"]
@@ -17,10 +20,16 @@ build-backend = "hatchling.build"
 
 [tool.rye]
 managed = true
-dev-dependencies = ["pyright>=1.1.344", "ruff>=0.1.11", "pytest>=7.4.4"]
+dev-dependencies = [
+    "pyright>=1.1.344",
+    "ruff>=0.1.11",
+    "pytest>=7.4.4",
+    "djlint>=1.34.1",
+]
 
     [tool.rye.scripts]
-    "project" = { call = "deltahacks_project" }
+    "watch-css" = { cmd = "tailwindcss -i styles.input.css -o static/styles.css -w" }
+    "dev" = { cmd = "uvicorn src.deltahacks_backend.__main__:app --reload" }
 
     "test" = { cmd = "pytest" }
 
@@ -30,6 +39,9 @@ dev-dependencies = ["pyright>=1.1.344", "ruff>=0.1.11", "pytest>=7.4.4"]
     "check:format" = { cmd = "ruff format --check" }
 
     "format" = { cmd = "ruff format" }
+
+[tool.ruff]
+extend-select = ["ANN"]
 
 [tool.pyright]
 typeCheckingMode = "strict"

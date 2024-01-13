@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="{{ url_for('static', path='/htmx.min.js') }}"></script>
+    <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet">
+</head>
+
+<body class="p-4 text-slate-600">
+    <main>
+        <div id="courses" class="w-full">
+            <ul class="flex flex-row gap-4">
+                {% include "course-list.jinja2" %}
+            </ul>
+        </div>
+    </main>
+</body>
+
+</html>

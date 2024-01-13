@@ -1,0 +1,22 @@
+{% for code, course in courses.items() %}
+<li class="w-full bg-slate-200 p-4 rounded-md shadow-lg flex flex-col gap-2">
+    <img class="rounded-md aspect-square" src="https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg">
+    <div>
+        <span class="text-3xl font-black">{{ course.name }}</span>
+        <br>
+        {{ code }} · {{ course.professor }}
+        <br>
+        {{ course.room_number if course.room_number is not none else "Online" }}
+    </div>
+    <form class="flex flex-col gap-2" hx-post="/courses/{{ code }}/ai" hx-target="find output" hx-swap="innerHTML">
+        <div class="flex flex-row">
+            <input class="flex-1 bg-slate-200 focus:outline-none" name="question" type="text"
+                placeholder="Ask a question!">
+            <input type="submit" value="Ask"
+                class="bg-[#1bb5e7] text-white w-full rounded-md p-2 hover:bg-[#0e8db5] transition-colors duration-200 ease-in-out">
+        </div>
+        <hr class="border-slate-300 border-2 rounded-full">
+        <output class="bg-slate-200 w-full focus:outline-none"></output>
+    </form>
+</li>
+{% endfor %}

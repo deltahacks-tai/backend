@@ -50,14 +50,5 @@ jobs:
       - name: Install dependencies
         run: rye sync
 
-      - name: Check code
-        run: rye run check:code
-        if: always()
-
-      - name: Check types
-        run: rye run check:types
-        if: always()
-
-      - name: Check format
-        run: rye run check:format
-        if: always()
+      - name: Check
+        run: rye run check

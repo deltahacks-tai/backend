@@ -1,9 +1,11 @@
 [project]
-name = "deltahacks-project"
+name = "deltahacks-backend"
 version = "0.0.0"
-description = "Our DeltaHacks X project."
+description = "Our DeltaHacks X backend."
 authors = [{ name = "Vidhan Bhatt", email = "me@vidhan.io" }]
-dependencies = []
+dependencies = [
+    "fastapi>=0.109.0",
+]
 readme = "README.md"
 requires-python = ">= 3.12"
 classifiers = ["Private :: Do Not Upload"]

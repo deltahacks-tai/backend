@@ -1,17 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.jinja2" %}
 
-<head>
-    <script src="{{ url_for('static', path='/htmx.min.js') }}"></script>
-    <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet">
-</head>
+{% block title %}{{ course.name }}{% endblock title %}
 
-<body class="p-4 text-slate-600">
-    <main>
+{% block content %}
+<div class="flex flex-row gap-4">
+    <main class="flex flex-col bg-slate-200 p-4 rounded-md w-2/3">
+        <div class="flex flex-row">
+            {# <a href="{{ url_for('course_content', code=course.code) }}">Content</a>
+            <a href="{{ url_for('course_assignments', code=course.code) }}">Assignments</a>
+            <a href="{{ url_for('course_grades', code=course.code) }}">Grades</a> #}
+        </div>
 
-        hi
-
+        <section id="announcements" class="flex flex-col gap-4">
+            <h2 class="text-2xl font-bold">Announcements</h2>
+            {% for announcement in course.announcements %}
+            <article class="bg-slate-300 p-4 rounded-md">
+                <h3 class="font-bold text-xl">{{ announcement.title }}</h3>
+                {{ announcement.date }}
+                <p>{{ announcement.content }}</p>
+            </article>
+            {% endfor %}
+        </section>
     </main>
-</body>
-
-</html>
+    <aside class="flex-1">
+        {% include "components/chat.jinja2" %}
+    </aside>
+</div>
+{% endblock content %}

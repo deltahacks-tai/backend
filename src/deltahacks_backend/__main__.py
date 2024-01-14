@@ -33,6 +33,15 @@ async def index(request: Request) -> HTMLResponse:
     )
 
 
+@app.get("/course/{course_id}", response_class=HTMLResponse)
+async def course(request: Request, course_id:str) -> HTMLResponse:
+    return templates.TemplateResponse(
+        request=request,
+        name="courseSpecifics.jinja2"
+   
+    )
+
+
 @app.post("/courses/{course_id}/ai", response_class=HTMLResponse)
 async def course_ai(
     course_id: str,

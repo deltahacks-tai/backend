@@ -158,6 +158,7 @@ templates = Jinja2Templates(directory="templates")
 
 templates.env.filters["kebab"] = kebab  # type: ignore
 
+
 # index route
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request) -> HTMLResponse:
@@ -167,7 +168,7 @@ async def index(request: Request) -> HTMLResponse:
         context={"courses": COURSES},
     )
 
-#course route
+
 @app.get("/courses/{course_code}", response_class=HTMLResponse)
 async def course(request: Request, course_code: str) -> HTMLResponse:
     conversation_id = uuid4()
@@ -180,21 +181,44 @@ async def course(request: Request, course_code: str) -> HTMLResponse:
         },
     )
 
-#grade route 
-@app.get("/grades/{course_code}", response_class=HTMLResponse)
-async def course_grades(request: Request, course_code: str) -> HTMLResponse:
-    conversation_id = uuid4()
-    return templates.TemplateResponse(
-        request=request,
-        name="grade.jinja2",
-        context={
-            "course": COURSES.get_course(course_code),
-            "conversation_id": conversation_id,
-        },
+
+@app.post("/courses/{course_code}/chat", response_class=HTMLResponse)
+async def course_chat(
+    request: Request,
+    course_code: str,
+    conversation_id: Annotated[str, Form()],
+    message: Annotated[str, Form()],
+) -> HTMLResponse:
+    course = COURSES.get_course(course_code)
+
+    preamble = f"You are a chatbot for {course.name}. You are to make your responses as concise as possible with no extra words. You are allowed a maximum of one sentence. ONLY USE ONE SENTENCE."
+
+    preamble += "These are the announcements for this course:"
+    for announcement in course.announcements:
+        preamble += f'"{announcement.title}" was made on {announcement.date}.'
+        preamble += f'"{announcement.title}" is about {announcement.content}.'
+
+    preamble += "These are the assignments for this course:"
+    for assignment in course.assignments:
+        preamble += f'"{assignment.name}" is due on {assignment.due_date}.'
+        preamble += f'"{assignment.name}" is about {assignment.description}.'
+        if assignment.grade:
+            preamble += f'The grade for "{assignment.name}" is {assignment.grade}.'
+
+    response = await co.chat(
+        message,
+        preamble_override=preamble,
+        conversation_id=conversation_id,
     )
 
-#content route
-@app.get("/contents/{course_code}", response_class=HTMLResponse)
+    return templates.TemplateResponse(
+        request=request,
+        name="components/chat-message.jinja2",
+        context={"user_message": message, "bot_message": response.text},
+    )
+
+
+@app.get("/courses/{course_code}/content", response_class=HTMLResponse)
 async def course_content(request: Request, course_code: str) -> HTMLResponse:
     conversation_id = uuid4()
     return templates.TemplateResponse(
@@ -206,8 +230,8 @@ async def course_content(request: Request, course_code: str) -> HTMLResponse:
         },
     )
 
-#assignment route 
-@app.get("/assignments/{course_code}", response_class=HTMLResponse)
+
+@app.get("/courses/{course_code}/assignments", response_class=HTMLResponse)
 async def course_assignments(request: Request, course_code: str) -> HTMLResponse:
     conversation_id = uuid4()
     return templates.TemplateResponse(
@@ -220,23 +244,16 @@ async def course_assignments(request: Request, course_code: str) -> HTMLResponse
     )
 
 
-@app.post("/chat", response_class=HTMLResponse)
-async def chat(
-    request: Request,
-    conversation_id: Annotated[str, Form()],
-    message: Annotated[str, Form()],
-) -> HTMLResponse:
-    response = await co.chat(
-        message,
-        preamble_override="You are a bot which replies to answers as concisely as possible. Do not use more than once sentence in a response under ANY cirumstances.",
-        max_tokens=50,
-        conversation_id=conversation_id,
-    )
-
+@app.get("/courses/{course_code}/grades", response_class=HTMLResponse)
+async def course_grades(request: Request, course_code: str) -> HTMLResponse:
+    conversation_id = uuid4()
     return templates.TemplateResponse(
         request=request,
-        name="components/chat-message.jinja2",
-        context={"user_message": message, "bot_message": response.text},
+        name="grade.jinja2",
+        context={
+            "course": COURSES.get_course(course_code),
+            "conversation_id": conversation_id,
+        },
     )
 
 

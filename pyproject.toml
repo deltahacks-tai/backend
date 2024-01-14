@@ -1,5 +1,5 @@
 [project]
-name = "deltahacks-backend"
+name = "tai"
 version = "0.0.0"
 description = "Our DeltaHacks X backend."
 authors = [{ name = "Vidhan Bhatt", email = "me@vidhan.io" }]
@@ -30,7 +30,7 @@ dev-dependencies = [
 
     [tool.rye.scripts]
     "watch-css" = { cmd = "tailwindcss -i styles.input.css -o static/styles.css -w" }
-    "dev" = { cmd = "uvicorn src.deltahacks_backend.__main__:app --reload" }
+    "dev" = { cmd = "uvicorn src.tai.__main__:app --reload" }
 
     "test" = { cmd = "pytest" }
 
@@ -52,4 +52,4 @@ typeCheckingMode = "strict"
     allow-direct-references = true
 
     [tool.hatch.build.targets.wheel]
-    packages = ["src/deltahacks_project"]
+    packages = ["src/tai"]

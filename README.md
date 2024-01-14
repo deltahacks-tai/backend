@@ -1,4 +1,4 @@
-# deltahacks-project
+# tai
 
 this project is managed with [rye](https://rye-up.com).
 

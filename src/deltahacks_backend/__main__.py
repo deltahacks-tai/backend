@@ -287,7 +287,7 @@ async def course_ai(
 
     relevance_score = reranking.results[0].relevance_score
 
-    if relevance_score < 0.85:
+    if relevance_score < 0.70:
         return "Sorry, I don't understand your question."
 
     return reranking.results[0].document["text"]

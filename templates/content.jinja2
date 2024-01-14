@@ -1,0 +1,51 @@
+{% extends "base.jinja2" %}
+
+{% block title %}Content{% endblock %}
+
+{% block content %}
+<div class="flex flex-col">
+
+
+    <div class="flex flex-row gap-4 pb-4 pt-12 ">   
+        <a href="{{ url_for('course', course_code = course.code) }}" class="bg-tai  text-white rounded-md cursor-pointer disabled:bg-slate-500 py-2 px-4 hover:bg-tai-dark transition-colors duration-200 ease-in-out ">Back</a> 
+    </div>
+
+    <div class="flex flex-row gap-4"> 
+
+        <main class="flex flex-col bg-slate-200 p-4 rounded-md w-2/3">
+            <h3 class="font-bold text-xl">Course Breakdown</h3>
+
+            <canvas id="pieChart" style="width: 100px; height: 100px;"></canvas>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script>
+
+                var ctx = document.getElementById('pieChart').getContext('2d');
+                var myPieChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Assignment', 'Exams', 'Midterms'],
+                        datasets: [{
+                            data: [30, 40, 30],
+                            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+                        }]
+                    },
+                    options: {
+                        
+                    aspectRatio: 2.5,
+                
+                    }
+                });
+            </script>
+
+        </main>
+
+        <aside class="flex-1">
+                {% include "components/chat.jinja2" %}
+        </aside>
+
+    </div>
+
+
+</div>
+
+{% endblock %}

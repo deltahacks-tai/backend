@@ -158,7 +158,7 @@ templates = Jinja2Templates(directory="templates")
 
 templates.env.filters["kebab"] = kebab  # type: ignore
 
-
+# index route
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request) -> HTMLResponse:
     return templates.TemplateResponse(
@@ -167,13 +167,52 @@ async def index(request: Request) -> HTMLResponse:
         context={"courses": COURSES},
     )
 
-
+#course route
 @app.get("/courses/{course_code}", response_class=HTMLResponse)
 async def course(request: Request, course_code: str) -> HTMLResponse:
     conversation_id = uuid4()
     return templates.TemplateResponse(
         request=request,
         name="course.jinja2",
+        context={
+            "course": COURSES.get_course(course_code),
+            "conversation_id": conversation_id,
+        },
+    )
+
+#grade route 
+@app.get("/grades/{course_code}", response_class=HTMLResponse)
+async def course_grades(request: Request, course_code: str) -> HTMLResponse:
+    conversation_id = uuid4()
+    return templates.TemplateResponse(
+        request=request,
+        name="grade.jinja2",
+        context={
+            "course": COURSES.get_course(course_code),
+            "conversation_id": conversation_id,
+        },
+    )
+
+#content route
+@app.get("/contents/{course_code}", response_class=HTMLResponse)
+async def course_content(request: Request, course_code: str) -> HTMLResponse:
+    conversation_id = uuid4()
+    return templates.TemplateResponse(
+        request=request,
+        name="content.jinja2",
+        context={
+            "course": COURSES.get_course(course_code),
+            "conversation_id": conversation_id,
+        },
+    )
+
+#assignment route 
+@app.get("/assignments/{course_code}", response_class=HTMLResponse)
+async def course_assignments(request: Request, course_code: str) -> HTMLResponse:
+    conversation_id = uuid4()
+    return templates.TemplateResponse(
+        request=request,
+        name="assignments.jinja2",
         context={
             "course": COURSES.get_course(course_code),
             "conversation_id": conversation_id,

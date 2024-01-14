@@ -1,0 +1,121 @@
+{% extends "base.jinja2" %}
+
+{% block title %}Grades{% endblock %}
+
+{% block content %}
+<div class="flex flex-col">
+
+
+    <div class="flex flex-row gap-4 pb-4 pt-12 ">   
+        <a href="{{ url_for('course', course_code = course.code) }}" class="bg-tai  text-white rounded-md cursor-pointer disabled:bg-slate-500 py-2 px-4 hover:bg-tai-dark transition-colors duration-200 ease-in-out ">Back</a> 
+    </div>
+
+    <div class="flex flex-row gap-4"> 
+
+
+    <main class="flex flex-col gap-4 bg-slate-200 p-4 rounded-md w-2/3">
+
+            <article class="bg-slate-300 p-4 rounded-md">
+                <h3 class="font-bold text-xl">Assignments</h3>
+                <h3 class="font-bold text-l">30% of 30%</h3>
+
+
+                <canvas id="pieChart1" style="width: 100px; height: 100px;"></canvas>
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <script>
+
+                    var ctx = document.getElementById('pieChart1').getContext('2d');
+                    var myPieChart = new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: ['Grade', 'Lost'],
+                            datasets: [{
+                                data: [30, 70],
+                                backgroundColor: ['#FF6384', '#36A2EB'],
+                            }]
+                        },
+                        options: {
+                            
+                        aspectRatio: 6,
+        
+                        }
+                    });
+                </script>
+               
+            </article> 
+
+            <article class="bg-slate-300 p-4 rounded-md">
+                <h3 class="font-bold text-xl">Midterms</h3>
+                <h3 class="font-bold text-l">50% of 30%</h3>
+
+
+                <canvas id="pieChart2" style="width: 100px; height: 100px;"></canvas>
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <script>
+
+                    var ctx = document.getElementById('pieChart2').getContext('2d');
+                    var myPieChart = new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: ['Grade', 'Lost'],
+                            datasets: [{
+                                data: [50, 50],
+                                backgroundColor: ['#FF6384', '#36A2EB'],
+                            }]
+                        },
+                        options: {
+                            
+                        aspectRatio: 6,
+        
+                        }
+                    });
+                </script>
+               
+            </article> 
+
+            <article class="bg-slate-300 p-4 rounded-md">
+                <h3 class="font-bold text-xl">Exam</h3>
+                <h3 class="font-bold text-l">70% of 40%</h3>
+
+
+                <canvas id="pieChart3" style="width: 100px; height: 100px;"></canvas>
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <script>
+
+                    var ctx = document.getElementById('pieChart3').getContext('2d');
+                    var myPieChart = new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: ['Grade', 'Lost'],
+                            datasets: [{
+                                data: [70, 30],
+                                backgroundColor: ['#FF6384', '#36A2EB'],
+                            }]
+                        },
+                        options: {
+                            
+                        aspectRatio: 6,
+        
+                        }
+                    });
+                </script>
+               
+            </article> 
+
+        </main>
+
+      
+
+        <aside class="flex-1">
+                {% include "components/chat.jinja2" %}
+        </aside>
+
+    </div>
+
+    <h3 class="font-bold text-xl pt-4">Total: 59%</h3>
+
+
+
+</div>
+
+{% endblock %}

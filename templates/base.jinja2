@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!DOCTYPE html>
 
-    <script src="{{ url_for('static', path='/htmx.min.js') }}"></script>
+    <script src="{{ url_for('static', path='/htmx.min.js') }} "></script>
     <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet">
 
     <title>{% block title %}{% endblock %} - tAI</title>
 </head>
 
-<body class="p-4 flex flex-col gap-4 text-slate-600">
+<body class="p-12 flex flex-col gap-4 text-slate-600 " >
     <nav class="p-4 flex flex-row items-center justify-between bg-slate-100 rounded-md">
         <a href="{{ url_for('index') }}" class="flex flex-row items-center gap-2 text-4xl font-bold">
             <img class="h-16" src="{{ url_for('static', path='/logo.png') }}" alt="tAI Logo">
@@ -22,6 +22,11 @@
             class="bg-tai cursor-pointer text-white w-32 rounded-md p-4 h-full hover:bg-tai-dark transition-colors duration-200 ease-in-out">
     </nav>
     {% block content %}{% endblock %}
+
+
+   
+       
 </body>
+ 
 
 </html>

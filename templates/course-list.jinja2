@@ -1,8 +1,7 @@
 {% for code, course in courses.items() %}
-<a href="{{ url_for('course', course_id = code) }}">
-<li class="cursor-pointer transform hover:scale-105 transition-all duration-300 w-full bg-slate-200 p-4 rounded-md shadow-lg flex flex-col gap-2">
-    <img class="rounded-md aspect-square" src="https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg">
-    <div>
+<a class="hover:scale-105 transition-transform duration-250 w-full bg-slate-200 p-4 rounded-md shadow-lg flex flex-col gap-2"
+    href="{{ url_for('course', course_id = code) }}">
+    <div class="flex-1">
         <span class="text-3xl font-black">{{ course.name }}</span>
         <br>
         {{ code }} · {{ course.professor }}
@@ -19,6 +18,5 @@
         <hr class="border-slate-300 border-2 rounded-full">
         <output class="bg-slate-200 w-full focus:outline-none"></output>
     </form>
-</li>
 </a>
 {% endfor %}

@@ -6,9 +6,8 @@
     <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet">
 </head>
 
-<body class="p-4 text-slate-600">
+<body class="min-h-screen p-4 text-slate-600">
     <main>
-
         <div class="flex flex-row items-center justify-between mb-8 border-b border-slate-500">
             <img class=" mb-4 w-64" src="../static/images/logo.png">
 
@@ -21,7 +20,7 @@
                 {% include "course-list.jinja2" %}
             </ul>
         </div>
-       
+
     </main>
 </body>
 

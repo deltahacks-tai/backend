@@ -251,7 +251,7 @@ async def course_ai(
 
     documents.append(f"The course name is {course.name}.")
     documents.append(f"The course code is {course.code}.")
-    documents.append(f"The professor for is {course.professor}.")
+    documents.append(f"The professor for this course is {course.professor}.")
 
     if course.room_number:
         documents.append(f"The room number is {course.room_number}.")

@@ -13,7 +13,24 @@
     <div class="flex flex-row gap-4"> 
 
         <main class="flex flex-col bg-slate-200 p-4 rounded-md w-2/3">
-            
+
+            <section id="announcements" class="flex flex-col gap-4">
+                <h2 class="text-2xl font-bold">Assignments</h2>
+                {% for assignment in course.assignments %}
+                <article class="bg-slate-300 p-4 rounded-md">
+                    <h3 class="font-bold text-xl">{{ assignment.name}}
+                    </h3>
+                    DUE: {{ assignment.due_date }}
+                    <p>{{ assignment.description }}</p>
+
+                    <div class="pt-4">
+                        <a class="bg-tai  text-white rounded-md cursor-pointer disabled:bg-slate-500 py-2 px-4 hover:bg-tai-dark transition-colors duration-200 ease-in-out ">View</a> 
+                    </div>      
+
+                </article>
+                {% endfor %}
+            </section>
+                
 
         </main>
 

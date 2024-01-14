@@ -1,13 +1,15 @@
 {% for code, course in courses.items() %}
-<a class="hover:scale-105 transition-transform duration-250 w-full bg-slate-200 p-4 rounded-md shadow-lg flex flex-col gap-2"
-    href="{{ url_for('course', course_id = code) }}">
-    <div class="flex-1">
-        <span class="text-3xl font-black">{{ course.name }}</span>
-        <br>
-        {{ code }} · {{ course.professor }}
-        <br>
-        {{ course.room_number if course.room_number is not none else "Online" }}
-    </div>
+<li
+    class="hover:scale-105 transition-transform duration-250 w-full bg-slate-200 p-4 rounded-md shadow-lg flex flex-col gap-2">
+    <a href="{{ url_for('course', course_id = code) }}">
+        <div class="flex-1">
+            <span class="text-3xl font-black">{{ course.name }}</span>
+            <br>
+            {{ code }} · {{ course.professor }}
+            <br>
+            {{ course.room_number if course.room_number is not none else "Online" }}
+        </div>
+    </a>
     <form class="flex flex-col gap-2" hx-post="/courses/{{ code }}/ai" hx-target="find output" hx-swap="innerHTML">
         <div class="flex flex-row">
             <input class="flex-1 bg-slate-200 focus:outline-none" name="question" type="text"
@@ -18,5 +20,5 @@
         <hr class="border-slate-300 border-2 rounded-full">
         <output class="bg-slate-200 w-full focus:outline-none"></output>
     </form>
-</a>
+</li>
 {% endfor %}

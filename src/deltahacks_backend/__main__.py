@@ -2,7 +2,6 @@ import os
 from typing import Annotated, NamedTuple
 
 from cohere.client import Client
-from cohere.responses.classify import Example
 from fastapi import FastAPI, Form, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
@@ -65,24 +64,24 @@ async def course_ai(
     course_id: str,
     question: Annotated[str, Form()],
 ) -> str:
-    examples = list[Example]()
+    documents = list[str]()
 
-    for assignment in COURSES[course_id].assignments:
-        examples.append(
-            Example(f"How many days until {assignment} is due?", assignment)
-        )
-        examples.append(Example(f"When is {assignment} due?", assignment))
-        examples.append(Example(f"When should I submit {assignment}?", assignment))
+    documents.append(f"The course name is {COURSES[course_id].name}.")
+    documents.append(f"The course code is {course_id}.")
+    documents.append(f"The professor for is {COURSES[course_id].professor}.")
+    if COURSES[course_id].room_number:
+        documents.append(f"The room number is {COURSES[course_id].room_number}.")
+    else:
+        documents.append("The course is online.")
 
-    classifications = co.classify(
-        [question],
-        examples=examples,
+    for assignment, days in COURSES[course_id].assignments.items():
+        documents.append(f"{assignment} is due in {days} days. ")
+
+    reranking = co.rerank(
+        question,
+        model="rerank-english-v2.0",
+        documents=documents,
+        top_n=1,
     )
 
-    prediction = classifications.classifications[0].prediction
-    confidence = classifications.classifications[0].confidence
-
-    if prediction is None or confidence is None:
-        return "I don't understand the question"
-
-    return f"the assignment is due in {COURSES[course_id].assignments[prediction]} days [{confidence:.2f}]"
+    return f"{reranking.results[0].document["text"]} {reranking.results[0].relevance_score}"
